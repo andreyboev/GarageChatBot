@@ -1,7 +1,7 @@
 from aiogram.types import FSInputFile
 
-from chart_controller import generate_bar_chart
-from db_controller import get_users_msg_count
+from controllers.chart_controller import generate_bar_chart
+from controllers.db_controller import get_users_msg_count
 
 
 def get_chart_activity_stat(chat_id):
@@ -14,3 +14,14 @@ def get_chart_activity_stat(chat_id):
     generate_bar_chart(names, counts)
     fig = FSInputFile('fig.png')
     return fig
+
+
+def get_right_bracket_word(count):
+    if 10 < count % 100 < 15:
+        return 'скобок'
+    elif count % 10 == 1:
+        return 'скобку'
+    elif 1 < count % 10 < 5:
+        return 'скобки'
+    else:
+        return 'скобок'

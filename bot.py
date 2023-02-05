@@ -1,6 +1,7 @@
 import asyncio
 
 from aiogram import Dispatcher, Bot
+from aiogram.fsm.strategy import FSMStrategy
 from aiogram.types import BotCommand
 
 import config
@@ -8,7 +9,7 @@ from handlers import common
 
 
 async def main():
-    dp = Dispatcher()
+    dp = Dispatcher(fsm_strategy=FSMStrategy.CHAT)
     bot = Bot(config.TOKEN)
     await bot.set_my_commands([BotCommand(command='help', description='Help'),
                                BotCommand(command='menu', description='Menu')])
