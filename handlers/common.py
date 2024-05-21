@@ -170,15 +170,15 @@ async def photo_msg(message: Message):
     if not has_chat(message.chat.id):
         add_chat(message.chat.id, message.chat.title)
     reg_user(message.chat.id, message.from_user)
-    inc_user_msg_count(message.from_user.id, message.chat.id)
+    inc_user_msg_count(message.from_user.id, message.chat.id, len(message.text.split()))
 
 
 @router.message(F.text.regexp(r'^(?!Бот).+$'), StateFilter(None))
-async def cmd_msg(message: Message, state: FSMContext):
+async def cmd_msg(message: Message):
     if not has_chat(message.chat.id):
         add_chat(message.chat.id, message.chat.title)
     reg_user(message.chat.id, message.from_user)
-    inc_user_msg_count(message.from_user.id, message.chat.id)
+    inc_user_msg_count(message.from_user.id, message.chat.id, len(message.text.split()))
 
 
 @router.message(Text(startswith='Бот'))
@@ -186,7 +186,7 @@ async def cmd_msg(message: Message):
     if not has_chat(message.chat.id):
         add_chat(message.chat.id, message.chat.title)
     reg_user(message.chat.id, message.from_user)
-    inc_user_msg_count(message.from_user.id, message.chat.id)
+    inc_user_msg_count(message.from_user.id, message.chat.id, len(message.text.split()))
     if 'меня зовут' in message.text.lower():
         text = message.text
         name_start = text.find('меня зовут') + 10

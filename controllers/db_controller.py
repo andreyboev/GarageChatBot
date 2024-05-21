@@ -56,14 +56,14 @@ def get_user_info(id, chat_id):
     return result
 
 
-def inc_user_msg_count(id, chat_id):
+def inc_user_msg_count(id, chat_id, count=1):
     cursor = connection.cursor()
     cursor.execute("SELECT message_count FROM user WHERE user_id=? AND chat=?", (id, chat_id))
-    count = cursor.fetchone()[0]
+    old_count = cursor.fetchone()[0]
     cursor.close()
     cursor = connection.cursor()
-    count += 1
-    cursor.execute("UPDATE user set message_count=? WHERE user_id=? AND chat=?", (count, id, chat_id))
+    old_count += count
+    cursor.execute("UPDATE user set message_count=? WHERE user_id=? AND chat=?", (old_count, id, chat_id))
     connection.commit()
     cursor.close()
 
