@@ -1,3 +1,6 @@
+from selenium.webdriver import Keys
+from selenium.webdriver.common.by import By
+
 consonants = [u'б', u'в', u'г', u'д', u'ж', u'з', u'й', u'к',
               u'л', u'м', u'н', u'п', u'р', u'с', u'т', u'ф', u'х', u'ц', u'ч', u'ш', u'щ']
 thud = [u'к', u'п', u'с', u'т', u'ф', u'х', u'ц', u'ч', u'ш', u'щ']
@@ -102,8 +105,9 @@ def is_vowel(char):
     return False
 
 from selenium import webdriver
-from selenium.webdriver import Keys
-from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Log
 
 def create_rhyme(text: str):
     '''syllables = split2syllables(word).split('-')
@@ -113,10 +117,10 @@ def create_rhyme(text: str):
         return f'хуе{"".join(syllables)}'
     return f"хуе{"".join(syllables[1:])}"
     '''
-    options = webdriver.ChromeOptions()
+    options = webdriver.FirefoxOptions()
     options.add_argument('headless')
-    options.add_argument('remote-debugging-pipe')
-    driver = webdriver.Chrome(options=options)
+    #options.add_argument('remote-debugging-pipe')
+    driver = webdriver.Firefox(options=options)
     driver.get('https://maximal.github.io/reduplicator/#')
     element = driver.find_element(By.ID, "inp-text")
     element.clear()
@@ -124,4 +128,4 @@ def create_rhyme(text: str):
     res_element = driver.find_element(By.ID, "hui-result")
     return res_element.text
 
-# print(create_rhyme("Пень"))
+#print(create_rhyme("Пень"))
