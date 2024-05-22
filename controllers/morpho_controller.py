@@ -115,8 +115,8 @@ def create_rhyme(text: str):
     '''
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
-    options.add_argument('--remote-debugging-pipe')
-    driver = webdriver.Chrome(options=options)
+    options.add_argument('remote-debugging-pipe')
+    driver = webdriver.Chrome(executable_path="/usr/lib/chromium-browser/chromedriver", options=options)
     driver.get('https://maximal.github.io/reduplicator/#')
     element = driver.find_element(By.ID, "inp-text")
     element.clear()
