@@ -208,5 +208,5 @@ async def cmd_msg(message: Message):
     if 'рифмуй' in message.text.lower():
         text = message.text.lower()
         word = text[text.find('рифмуй') + 6:].strip()
-        await message.answer(f'{create_rhyme(word)}')
+        await message.answer(f'{await create_rhyme(word)}')
         return
