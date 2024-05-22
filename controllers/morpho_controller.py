@@ -141,6 +141,6 @@ async def create_rhyme(text: str):
 
     return result
 
-import asyncio
-print(asyncio.run(create_rhyme('Пень')))
+#import asyncio
+#print(asyncio.run(create_rhyme('Пень')))
 #print(create_rhyme("Пень"))
