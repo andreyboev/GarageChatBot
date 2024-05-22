@@ -1,5 +1,5 @@
-from selenium.webdriver import Keys
-from selenium.webdriver.common.by import By
+import asyncio
+from playwright.async_api import async_playwright
 
 consonants = [u'б', u'в', u'г', u'д', u'ж', u'з', u'й', u'к',
               u'л', u'м', u'н', u'п', u'р', u'с', u'т', u'ф', u'х', u'ц', u'ч', u'ш', u'щ']
@@ -109,7 +109,7 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Log
 
-def create_rhyme(text: str):
+async def create_rhyme(text: str):
     '''syllables = split2syllables(word).split('-')
     if len(syllables) == 1 and len(syllables[0]) == 0:
         return f'хуйня'
@@ -117,7 +117,7 @@ def create_rhyme(text: str):
         return f'хуе{"".join(syllables)}'
     return f"хуе{"".join(syllables[1:])}"
     '''
-    options = webdriver.FirefoxOptions()
+    '''options = webdriver.FirefoxOptions()
     options.add_argument('headless')
     #options.add_argument('remote-debugging-pipe')
     driver = webdriver.Firefox(options=options)
@@ -126,6 +126,21 @@ def create_rhyme(text: str):
     element.clear()
     element.send_keys(text, Keys.ENTER)
     res_element = driver.find_element(By.ID, "hui-result")
-    return res_element.text
+    return res_element.text'''
+    async with (async_playwright() as pw):
+        browser = await pw.firefox.launch(headless=True)
+        page = await browser.new_page()
+        await page.goto('https://maximal.github.io/reduplicator/#')
+        input_element = await page.query_selector("#inp-text")
+        await input_element.fill('')
+        await input_element.type(text, delay=0)
+        await page.keyboard.press("Enter")
+        result_element = await page.query_selector("#hui-result")
+        result = await result_element.inner_text()
+        await browser.close()
 
+    return result
+
+import asyncio
+print(asyncio.run(create_rhyme('Пень')))
 #print(create_rhyme("Пень"))
