@@ -101,11 +101,24 @@ def is_vowel(char):
             return True
     return False
 
+from selenium import webdriver
+from selenium.webdriver import Keys
+from selenium.webdriver.common.by import By
 
-def create_rhyme(word: str):
-    syllables = split2syllables(word).split('-')
+def create_rhyme(text: str):
+    '''syllables = split2syllables(word).split('-')
     if len(syllables) == 1 and len(syllables[0]) == 0:
         return f'хуйня'
     if len(syllables) == 1:
         return f'хуе{"".join(syllables)}'
-    return f'хуе{"".join(syllables[1:])}'
+    return f"хуе{"".join(syllables[1:])}"
+    '''
+    options = webdriver.ChromeOptions()
+    options.add_argument('headless')
+    driver = webdriver.Chrome(options=options)
+    driver.get('https://maximal.github.io/reduplicator/#')
+    element = driver.find_element(By.ID, "inp-text")
+    element.clear()
+    element.send_keys(text, Keys.ENTER)
+    res_element = driver.find_element(By.ID, "hui-result")
+    return res_element.text

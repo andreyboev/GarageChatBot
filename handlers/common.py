@@ -38,8 +38,7 @@ async def cmd_menu(message: Message):
         inline_keyboard=[
             [types.InlineKeyboardButton(text='👨‍👩‍👧‍👦 Участники', callback_data='users_button_click')],
             [types.InlineKeyboardButton(text='📈 Статистика активности', callback_data='stat_button_click')],
-            [types.InlineKeyboardButton(text='🌇 Города', callback_data='game_cities_button_click')],
-            [types.InlineKeyboardButton(text='🎥 Викторина фильмов', callback_data='game_films_button_click')]
+            [types.InlineKeyboardButton(text='🌇 Города', callback_data='game_cities_button_click')]
         ])
     await message.answer(text="Выберите нужный пункт", reply_markup=main_menu)
 
@@ -52,7 +51,7 @@ async def stat_button_click(call: types.CallbackQuery):
 
 
 @router.callback_query(Text(text='users_button_click'))
-async def game_button_click(call: types.CallbackQuery, state: FSMContext):
+async def game_button_click(call: types.CallbackQuery):
     personages = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐻‍❄️', '🐨', '🐯', '🦁', '🐮', '🐷', '🐽', '🐸',
                   '🐵', '🐔', '🐺', '🦆', '🦅', '🐗', '🐴', '🦄', '🐝', '🐛', '🐌', '🪱', '🐞', '🪰', '🪲', '🪳',
                   '🦟', '🦂', '🐢', '🐍', '🐙', '🦀', '🐠', '🐬', '🐅', '🐆', '🦓', '🦍', '🦧', '🦣', '🦛', '🐖',
@@ -73,17 +72,11 @@ async def game_button_click(call: types.CallbackQuery, state: FSMContext):
     await state.set_state(CitiesGameState.city)
 
 
-@router.callback_query(Text(text='game_films_button_click'))
-async def game_button_click(call: types.CallbackQuery, state: FSMContext):
-    await call.message.answer(f'Данный раздел находится в разработке!')
-    await call.answer()
-
-
 # TODO: Промежуточные результаты.
 # TODO: Время на ответ.
 # TODO: Хранить не название города, а объект???
 @router.message(CitiesGameState.city)
-async def enter_city_state(message: Message, state: FSMContext, bot: Bot):
+async def enter_city_state(message: Message, state: FSMContext):
     data = await state.get_data()
     if message.text == 'Завершить':
         await message.answer('Конец игры', reply_markup=types.ReplyKeyboardRemove())
