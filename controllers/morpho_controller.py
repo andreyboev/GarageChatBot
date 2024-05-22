@@ -115,6 +115,7 @@ def create_rhyme(text: str):
     '''
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
+    options.add_argument('--remote-debugging-pipe')
     driver = webdriver.Chrome(options=options)
     driver.get('https://maximal.github.io/reduplicator/#')
     element = driver.find_element(By.ID, "inp-text")
@@ -122,3 +123,5 @@ def create_rhyme(text: str):
     element.send_keys(text, Keys.ENTER)
     res_element = driver.find_element(By.ID, "hui-result")
     return res_element.text
+
+# print(create_rhyme("Пень"))
