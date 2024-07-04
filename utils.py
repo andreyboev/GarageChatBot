@@ -18,10 +18,10 @@ def get_chart_activity_stat(chat_id):
 
 def get_right_bracket_word(count):
     if 10 < count % 100 < 15:
-        return 'скобок'
+        return 'ногтей'
     elif count % 10 == 1:
-        return 'скобку'
+        return 'ноготь'
     elif 1 < count % 10 < 5:
-        return 'скобки'
+        return 'ногтя'
     else:
-        return 'скобок'
+        return 'ногтей'
