@@ -21,7 +21,7 @@ async def cmd_start(message: Message):
     await message.answer(text="Добро пожаловать!", reply_markup=ReplyKeyboardRemove())
 
 
-@router.message(Text(startswith=':)'), F.from_user.username == 'korwart')
+@router.message(F.text.regexp(r'[:=]\)+'), F.from_user.username == 'korwart')
 async def brackets_counter(message: Message):
     if not has_chat(message.chat.id):
         add_chat(message.chat.id, message.chat.title)
