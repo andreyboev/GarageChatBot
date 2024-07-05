@@ -47,7 +47,8 @@ async def cmd_menu(message: Message):
 async def stat_button_click(call: types.CallbackQuery):
     chat_id = call.message.chat.id
     await call.message.delete()
-    await call.message.answer_photo(photo=get_chart_activity_stat(chat_id))
+    fig = get_chart_activity_stat(chat_id)
+    await call.message.answer_photo(photo=fig)
 
 
 @router.callback_query(Text(text='users_button_click'))

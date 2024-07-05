@@ -1,3 +1,5 @@
+import os
+
 from aiogram.types import FSInputFile
 
 from controllers.chart_controller import generate_bar_chart
@@ -13,8 +15,8 @@ def get_chart_activity_stat(chat_id):
         counts.append(count)
     generate_bar_chart(names, counts)
     fig = FSInputFile('fig.png')
+    os.remove(fig.filename)
     return fig
-
 
 def get_right_bracket_word(count):
     if 10 < count % 100 < 15:
