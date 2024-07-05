@@ -15,7 +15,6 @@ def get_chart_activity_stat(chat_id):
         counts.append(count)
     generate_bar_chart(names, counts)
     fig = FSInputFile('fig.png')
-    os.remove(fig.filename)
     return fig
 
 def get_right_bracket_word(count):

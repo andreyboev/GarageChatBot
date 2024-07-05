@@ -1,3 +1,4 @@
+import os
 import random
 import re
 
@@ -49,6 +50,7 @@ async def stat_button_click(call: types.CallbackQuery):
     await call.message.delete()
     fig = get_chart_activity_stat(chat_id)
     await call.message.answer_photo(photo=fig)
+    os.remove(fig.filename)
 
 
 @router.callback_query(Text(text='users_button_click'))
