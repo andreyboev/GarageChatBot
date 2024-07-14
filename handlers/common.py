@@ -22,7 +22,7 @@ async def cmd_start(message: Message):
     await message.answer(text="Добро пожаловать!", reply_markup=ReplyKeyboardRemove())
 
 
-@router.message(F.text.regexp(r'[:=]\)+'), F.from_user.username == 'korwart')
+@router.message(F.text.regexp(r'.*[:=]\)+.*'), F.from_user.username == 'korwart')
 async def brackets_counter(message: Message):
     if not has_chat(message.chat.id):
         add_chat(message.chat.id, message.chat.title)
@@ -166,7 +166,8 @@ async def photo_msg(message: Message):
     if not has_chat(message.chat.id):
         add_chat(message.chat.id, message.chat.title)
     reg_user(message.chat.id, message.from_user)
-    inc_user_msg_count(message.from_user.id, message.chat.id, len(message.text.split()))
+    if message.text is not None:
+        inc_user_msg_count(message.from_user.id, message.chat.id, len(message.text.split()))
 
 
 @router.message(F.text.regexp(r'^(?!Бот).+$'), StateFilter(None))
