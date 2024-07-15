@@ -34,7 +34,8 @@ async def brackets_counter(message: Message):
         await message.answer(f'Сегодня вы потратили {stat[1] + current_value} {get_right_bracket_word(stat[1] + current_value)} из возможных 10. '
                              f'А ВСЕГО {stat[1] + current_value} {get_right_bracket_word(stat[1] + current_value).upper()}! 😡🤬')
     else:
-        await message.edit_text(f'Вы превысили лимит скобок. Сообщение удалено!')
+        await message.delete()
+        await message.answer(f'Вы превысили лимит скобок. Сообщение удалено!')
 
 
 @router.message(Command(commands=["menu"]))
