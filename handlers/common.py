@@ -29,7 +29,7 @@ async def brackets_counter(message: Message):
     reg_user(message.chat.id, message.from_user)
     current_value = message.text.count(')')
     stat = get_users_brackets_count(message.from_user.id, message.chat.id)
-    if stat[1] + stat <= 10:
+    if stat[1] + current_value <= 10:
         inc_user_brackets_count(message.from_user.id, message.chat.id, current_value)
         await message.answer(f'Сегодня вы потратили {stat[1] + current_value} {get_right_bracket_word(stat[1] + current_value)} из возможных 10. '
                              f'А ВСЕГО {stat[1] + current_value} {get_right_bracket_word(stat[1] + current_value).upper()}! 😡🤬')
