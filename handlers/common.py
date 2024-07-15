@@ -22,15 +22,19 @@ async def cmd_start(message: Message):
     await message.answer(text="Добро пожаловать!", reply_markup=ReplyKeyboardRemove())
 
 
-@router.message(F.text.regexp(r'.*[:=]\)+.*'), F.from_user.username == 'korwart')
+@router.message(F.text.regexp(r'.*[:=]\)+.*'))
 async def brackets_counter(message: Message):
     if not has_chat(message.chat.id):
         add_chat(message.chat.id, message.chat.title)
     reg_user(message.chat.id, message.from_user)
     current_value = message.text.count(')')
-    count = inc_user_brackets_count(message.from_user.id, message.chat.id, current_value)
-    await message.answer(f'В этот раз вы потратили {current_value} {get_right_bracket_word(current_value)}. '
-                         f'А ВСЕГО {count} {get_right_bracket_word(count).upper()}! 😡🤬')
+    stat = get_users_brackets_count(message.from_user.id, message.chat.id)
+    if stat[1] <= 10:
+        inc_user_brackets_count(message.from_user.id, message.chat.id, current_value)
+        await message.answer(f'Сегодня вы потратили {stat[1] + current_value} {get_right_bracket_word(stat[1] + current_value)} из возможных 10. '
+                             f'А ВСЕГО {stat[1] + current_value} {get_right_bracket_word(stat[1] + current_value).upper()}! 😡🤬')
+    else:
+        await message.edit_text(f'Вы превысили лимит скобок. Сообщение удалено!')
 
 
 @router.message(Command(commands=["menu"]))

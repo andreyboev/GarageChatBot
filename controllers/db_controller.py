@@ -79,18 +79,21 @@ def get_users_msg_count(chat_id):
     cursor.close()
     return stat
 
+def get_users_brackets_count(id, chat_id):
+    cursor = connection.cursor()
+    cursor.execute("SELECT total_brackets_count, brackets_count FROM user WHERE user_id=%s AND chat=%s", (id, chat_id))
+    stat = cursor.fetchone()
+    cursor.close()
+    return stat
 
 def inc_user_brackets_count(id, chat_id, count):
+    stat = get_users_brackets_count(id, chat_id)
     cursor = connection.cursor()
-    cursor.execute("SELECT brackets_count FROM user WHERE user_id=%s AND chat=%s", (id, chat_id))
-    c = cursor.fetchone()[0]
-    cursor.close()
-    cursor = connection.cursor()
-    c += count
-    cursor.execute("UPDATE user set brackets_count=%s WHERE user_id=%s AND chat=%s", (c, id, chat_id))
+    c = count + stat[1]
+    total_count = stat[0] + count
+    cursor.execute("UPDATE user set total_brackets_count=%s, brackets_count=%s WHERE user_id=%s AND chat=%s", (total_count, c, id, chat_id))
     connection.commit()
     cursor.close()
-    return c
 
 
 def get_next_obscene_phrase(chat_id):
