@@ -171,7 +171,7 @@ async def photo_msg(message: Message):
     if not has_chat(message.chat.id):
         add_chat(message.chat.id, message.chat.title)
     reg_user(message.chat.id, message.from_user)
-    if message.text is not None:
+    if message.text is not None and message.forward_date is None:
         inc_user_msg_count(message.from_user.id, message.chat.id, len(message.text.split()))
 
 
@@ -180,7 +180,8 @@ async def cmd_msg(message: Message):
     if not has_chat(message.chat.id):
         add_chat(message.chat.id, message.chat.title)
     reg_user(message.chat.id, message.from_user)
-    inc_user_msg_count(message.from_user.id, message.chat.id, len(message.text.split()))
+    if message.text is not None and message.forward_date is None:
+        inc_user_msg_count(message.from_user.id, message.chat.id, len(message.text.split()))
 
 
 @router.message(Text(startswith='Бот'))
