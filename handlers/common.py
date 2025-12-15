@@ -87,6 +87,13 @@ async def game_button_click(call: types.CallbackQuery, state: FSMContext):
 # TODO: Промежуточные результаты.
 # TODO: Время на ответ.
 # TODO: Хранить не название города, а объект???
+# 1. Бот принимает сокращения регионов.
+# 2. Бот принимает штаты и страны за города
+# 3. Бот иногда не реагирует на игрока
+# 4. Я нажал завершить случайно. Благо бот не завершил почему-то. Игра продолжилась
+# 5. Требуется функционал статистики
+# 6. Требуется сингл мод. Игра только с ботом, для убивания времени.
+# 7. Боту пофиг на ударения населенных пунктов ый, ая, ой, и тд. Может защитать Ахта. Хотя город Ахты. И на скрине пример тоже
 @router.message(CitiesGameState.city)
 async def enter_city_state(message: Message, state: FSMContext):
     data = await state.get_data()
@@ -114,7 +121,7 @@ async def enter_city_state(message: Message, state: FSMContext):
     if 'city' in data:
         old_city = data['city']['city']
         if data['city']['user'] == message.from_user.id:
-            await message.answer(f'Не надо играть самому с собой, лучше подрочи!')
+            await message.answer(f'Не надо играть самому с собой!')
             return
         if old_city[-1] != current_city[0]:
             await message.answer(f'Неправильно, повторите ввод города на букву \'{old_city[-1].upper()}\'')

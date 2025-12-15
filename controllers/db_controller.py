@@ -1,7 +1,7 @@
 import pymysql
 
 def get_connect():
-    return pymysql.connect(host='95.163.233.154',
+    return pymysql.connect(host='95.163.233.129',
                              user='andreyboev',
                              password='aQ123!+',
                              database='garage_data',
