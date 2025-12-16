@@ -5,7 +5,7 @@ def get_connect():
                              user='andreyboev',
                              password='aQ123!+',
                              database='garage_data',
-                             port=3310)
+                             port=3311)
 
 
 def has_user(chat_id, user_id):
